@@ -7,14 +7,13 @@ import requests
 from api_call import get_one_sol
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', minutes=5)
+@sched.scheduled_job('interval', minutes=1)
 def timed_job():
-    get_one_sol('curiosity', 780)
-
-
-@sched.scheduled_job('cron', day_of_week='mon', hour=13)
-def scheduled_job():
-    print('I should print at 1pm')
+    job_num = 0
+    # get_one_sol('curiosity', 780)
+    response = requests.get('http://codefellows.org')
+    job_num += 1
+    print(job_num, response.status_code)
 
 
 sched.start()
