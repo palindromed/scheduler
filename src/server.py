@@ -1,9 +1,9 @@
 from __future__ import unicode_literals, print_function
-
+import os
 import SimpleHTTPServer
 import SocketServer
 
-PORT = 5000
+PORT = int(os.environ.get("PORT", 5000))
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
