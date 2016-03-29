@@ -9,7 +9,7 @@ scheduler = BlockingScheduler()
 
 @scheduler.scheduled_job('interval', minutes=5)
 def timed_job():
-    send_mail(main('curiosity'))
+    main('curiosity')
 
 
 def my_listener(event):
