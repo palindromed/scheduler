@@ -64,12 +64,12 @@ def get_one_sol(rover, sol):
     content = content.decode('utf-8')
     pcontent = json.loads(content)
     lst = list(pcontent['photos'])
-    while pcontent['photos'] != []:
-        page += 1
-        new_content, encoding = get_inspection_page(rover, sol, page)
-        new_content = new_content.decode('utf-8')
-        pcontent = json.loads(new_content)
-        lst.extend(pcontent['photos'])
+   # while pcontent['photos'] != []:
+    #    page += 1
+        # new_content, encoding = get_inspection_page(rover, sol, page)
+        # new_content = new_content.decode('utf-8')
+        # pcontent = json.loads(new_content)
+        # lst.extend(pcontent['photos'])
         # print("test 25: " + str(pcontent))
         # print("******************")
         # print('len: ' + str(len(lst)))
@@ -83,4 +83,4 @@ def get_one_sol(rover, sol):
 if __name__ == '__main__':
     # write_to_file(get_inspection_page('curiostiy', 1000, 1), 'sample_data.json')
     # read_json('sample_data.json')
-    get_one_sol('curiosity', 5)
+    #get_one_sol('curiosity', 5)
