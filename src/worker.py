@@ -49,8 +49,8 @@ def send_mail(*args, **kwargs):
         auth=("api", os.environ.get("MAILGUN_API_KEY")),
         data={"from": "Mars Rover Bot",
               "to": ["Hannah", "hannahkrager@gmail.com"],
-              "subject": "{subject}".format(**kwargs),
-              "text": "{text}".format(**kwargs)})
+              "subject": "{subject}".format(subject=subject),
+              "text": "{text}".format(text=text)})
 
 
 if __name__ == '__main__':
