@@ -34,7 +34,7 @@ def send_mail(sol):
     The script has run. SOL is at: {}""".format(sol)
 
     try:
-        smtp_obj = smtplib.SMTP('localhost')
+        smtp_obj = smtplib.SMTP()
         smtp_obj.sendmail(sender, receivers, message)
         print("Successfully sent email")
     except smtplib.SMTPException:
