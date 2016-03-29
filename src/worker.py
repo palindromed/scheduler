@@ -7,7 +7,7 @@ import redis
 import requests
 
 
-def main():
+def main(rover):
     redis_url = os.getenv('REDISTOGO_URL', None)
     if redis_url is not None:
         red = redis.from_url(redis_url)
@@ -25,7 +25,7 @@ def main():
     else:
         sol = int(red.get('SOL'))
     try:
-        get_one_sol('curiosity', sol)
+        get_one_sol(rover, sol)
         sol += 1
         red.set('SOL', sol)
         subject = 'Success!!'
