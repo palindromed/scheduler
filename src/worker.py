@@ -13,9 +13,10 @@ def main():
         red = redis.from_url(redis_url)
         new = os.getenv("NEW_REDIS")
     else:
-        subject = "Redis Error",
+        subject = "Redis Error"
         text = "Could not connect to Redis"
         send_mail(subject, text)
+
         return
     if new:
         sol = 0
@@ -27,7 +28,7 @@ def main():
         get_one_sol('curiosity', sol)
         sol += 1
         red.set('SOL', sol)
-        subject = 'Success!!',
+        subject = 'Success!!'
         text = "All went well in API call. SOL for call was {}".format(sol)
         send_mail(subject, text)
         print(sol)
@@ -41,8 +42,8 @@ def send_mail(subject, text):
     print(subject, text)
     return requests.post(
         "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org",
-        auth=("api", os.environ.get("MAILGUN_API_KEY")),
-        data={"from": "Mars Rover Bot",
+        auth=("api", os.environ.get('MAILGUN_API_KEY')),
+        data={"from": "Mars Rover Bot", 'postmaster@sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org'
               "to": ["hannahkrager@gmail.com", "hannahkrager@gmail.com"],
               "subject": "{}".format(subject),
               "text": "{}".format(text)})
