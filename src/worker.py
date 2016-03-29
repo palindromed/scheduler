@@ -15,7 +15,7 @@ def main(rover):
     else:
         subject = "Redis Error"
         text = "Could not connect to Redis. Unable to get SOL"
-        send_mail(subject, text)
+        return subject, text
 
         return
     if new:
@@ -30,22 +30,22 @@ def main(rover):
         red.set('SOL', sol)
         subject = 'Success!!'
         text = "All went well in API call. SOL for call was {}".format(sol)
-        send_mail(subject, text)
-        print(sol)
+        return subject, text
+        # print(sol)
     except requests.exceptions.HTTPError:
         subject = "API Error",
         text = "There was a problem connecting to the API. SOL for call was {}".format(sol)
-        send_mail(subject, text)
+        return subject, text
 
 
-def send_mail(subject, text):
+def send_mail(params):
     return requests.post(
         "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org/messages",
         auth=("api", os.environ.get('MAILGUN_API_KEY')),
         data={"from": "Mars Rover Bot <postmaster@sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org>",
               "to": ["Hannah  <hannahkrager@gmail.com>"],
-              "subject": "{}".format(subject),
-              "text": "{}".format(text)})
+              "subject": "{}".format(params[0]),
+              "text": "{}".format(params[1])})
 
 
 if __name__ == '__main__':

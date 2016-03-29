@@ -3,14 +3,13 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import (EVENT_JOB_EXECUTED, EVENT_JOB_ERROR,
                                 EVENT_JOB_MISSED)
 from worker import main, send_mail
-import redis
 
 scheduler = BlockingScheduler()
 
 
 @scheduler.scheduled_job('interval', minutes=5)
 def timed_job():
-    main('curiosity')
+    send_mail(main('curiosity'))
 
 
 def my_listener(event):
@@ -19,6 +18,6 @@ def my_listener(event):
     else:
         print('The job worked :)')
 
-scheduler.add_listener(my_listener, EVENT_JOB_EXECUTED |
+scheduler.add_listener(timed_job, EVENT_JOB_EXECUTED |
                        EVENT_JOB_ERROR | EVENT_JOB_MISSED)
 scheduler.start()
