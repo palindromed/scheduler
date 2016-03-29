@@ -1,40 +1,51 @@
 from __future__ import unicode_literals, print_function
 import os
-from api_call import get_one_sol
+from latest_api_call import get_one_sol
 import redis
 # import smtplib
 # from email.mime.text import MIMEText
 import requests
 
 
-def main(rover):
+def connect_to_redis():
     redis_url = os.getenv('REDISTOGO_URL', None)
     if redis_url is not None:
-        red = redis.from_url(redis_url)
-        new = os.getenv("NEW_REDIS")
+        return redis.from_url(redis_url)
     else:
         subject = "Redis Error"
-        text = "Could not connect to Redis. Unable to get SOL"
+        text = "Could not connect to Redis. Unable to get SOL and page"
         send_mail(subject, text)
 
-        return
+
+def main(rover):
+    red = connect_to_redis()
+    new = os.getenv("NEW_REDIS")
     if new:
         sol = 0
         red.set('SOL', sol)
-        # os.environ['new'] = 'False'
+        page = 1
+        red.set('PAGE', page)
+        os.environ['new'] = 'False'
     else:
         sol = int(red.get('SOL'))
+        page = int(red.get('PAGE'))
     try:
-        get_one_sol(rover, sol)
-        sol += 1
-        red.set('SOL', sol)
+        # save in label, check to see if sol or page should increase
+        to_increase = get_one_sol(sol, page)
+        if to_increase == 'sol':
+            sol += 1
+            red.set('SOL', sol)
+            red.set('PAGE', 1)
+        elif to_increase == 'page':
+            page += 1
+            red.set('page', page)
         subject = 'Success!!'
-        text = "All went well in API call. SOL for call was {}".format(sol)
+        text = "All went well in API call. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)
         print(sol)
     except requests.exceptions.HTTPError:
         subject = "API Error",
-        text = "There was a problem connecting to the API. SOL for call was {}".format(sol)
+        text = "There was a problem connecting to the API. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)
 
 
@@ -48,5 +59,5 @@ def send_mail(subject, text):
               "text": "{}".format(text)})
 
 
-if __name__ == '__main__':
-    main('curiosity')
+# if __name__ == '__main__':
+#     main('curiosity')
