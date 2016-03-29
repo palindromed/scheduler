@@ -14,7 +14,7 @@ def main():
         new = os.getenv("NEW_REDIS")
     else:
         subject = "Redis Error"
-        text = "Could not connect to Redis"
+        text = "Could not connect to Redis. Unable to get SOL"
         send_mail(subject, text)
 
         return
@@ -34,14 +34,13 @@ def main():
         print(sol)
     except requests.exceptions.HTTPError:
         subject = "API Error",
-        text = "There was a problem connecting to the API."
+        text = "There was a problem connecting to the API. SOL for call was {}".format(sol)
         send_mail(subject, text)
 
 
 def send_mail(subject, text):
-    print(subject, text)
     return requests.post(
-        "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org",
+        "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org/messages",
         auth=("api", os.environ.get('MAILGUN_API_KEY')),
         data={"from": "Mars Rover Bot <postmaster@sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org>",
               "to": ["Hannah  <hannahkrager@gmail.com>"],
