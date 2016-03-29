@@ -8,7 +8,7 @@ import requests
 def main():
     # r = redis.StrictRedis(host='localhost', port=6379, db=0)
     redis_url = os.getenv('REDISTOGO_URL', None)
-    red = redis.Connection.connect(redis_url)
+    red = redis.from_url(redis_url)
     red.set('answer', 42)
     # job_num = red.get('sol')
     # get_one_sol('curiosity', 780)
