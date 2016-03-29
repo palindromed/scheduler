@@ -23,8 +23,8 @@ def main():
 
 
 def send_mail(sol):
-    username = os.getenv(GMAIL_USERNAME)
-    password = os.getenv(GMAIL_PASSWORD)
+    username = os.getenv('GMAIL_USERNAME')
+    password = os.getenv('GMAIL_PASSWORD')
 
     sender = 'hannahkrager@gmail.com'
     receivers = ['hannahkrager@gmail.com']
