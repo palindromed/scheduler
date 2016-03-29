@@ -38,6 +38,7 @@ def main():
 
 
 def send_mail(subject, text):
+    print(subject, text)
     return requests.post(
         "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org",
         auth=("api", os.environ.get("MAILGUN_API_KEY")),
