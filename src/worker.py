@@ -43,7 +43,7 @@ def main():
         send_mail(params)
 
 
-def send_mail(**kwargs):
+def send_mail(*args, **kwargs):
     return requests.post(
         "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org",
         auth=("api", os.environ.get("MAILGUN_API_KEY")),
