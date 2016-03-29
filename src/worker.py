@@ -35,15 +35,15 @@ def send_mail(sol):
 
     The script has run. SOL is at: {}""".format(sol)
 
-    try:
-        session = smtplib.SMTP('smtp.gmail.com', 587)
-        session.ehlo()
-        session.starttls()
-        session.login(username, password)
-        session.sendmail(sender, receivers, message)
-        print("Successfully sent email")
-    except smtplib.SMTPException:
-        print("Error: unable to send email")
+    # try:
+    session = smtplib.SMTP('smtp.gmail.com', 587)
+    session.ehlo()
+    session.starttls()
+    session.login(username, password)
+    session.sendmail(sender, receivers, message)
+    print("Successfully sent email")
+# except smtplib.SMTPException:
+    print("Error: unable to send email")
 
 if __name__ == '__main__':
     main()
