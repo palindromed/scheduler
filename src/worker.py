@@ -42,7 +42,7 @@ def send_mail(subject, text):
         "https://api.mailgun.net/v3/sandbox683f8d129b354362b092d1be8762ae7e.mailgun.org",
         auth=("api", os.environ.get("MAILGUN_API_KEY")),
         data={"from": "Mars Rover Bot",
-              "to": ["Hannah", "hannahkrager@gmail.com"],
+              "to": ["hannahkrager@gmail.com", "hannahkrager@gmail.com"],
               "subject": "{}".format(subject),
               "text": "{}".format(text)})
 
