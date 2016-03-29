@@ -23,19 +23,24 @@ def main():
 
 
 def send_mail(sol):
+    username = os.getenv(GMAIL_USERNAME)
+    password = os.getenv(GMAIL_PASSWORD)
 
-    sender = 'cummins.hannah@gmail.com'
+    sender = 'hannahkrager@gmail.com'
     receivers = ['hannahkrager@gmail.com']
 
-    message = """From: Me <cummins.hannah@gmail.com>
+    message = """From: Me <hannahkrager@gmail.com>
     To: Hannah <hannahkrager@gmail.com>
     Subject: SMTP e-mail test
 
     The script has run. SOL is at: {}""".format(sol)
 
     try:
-        smtp_obj = smtplib.SMTP()
-        smtp_obj.sendmail(sender, receivers, message)
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.ehlo()
+        session.starttls()
+        session.login(username, password)
+        session.sendmail(sender, receivers, message)
         print("Successfully sent email")
     except smtplib.SMTPException:
         print("Error: unable to send email")
