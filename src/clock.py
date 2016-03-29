@@ -6,7 +6,7 @@ from worker import main
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('interval', minutes=1)
+@sched.scheduled_job('interval', minutes=5)
 def timed_job():
     main()
 
