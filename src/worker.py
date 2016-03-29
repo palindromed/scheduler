@@ -15,6 +15,7 @@ def main():
     response = requests.get('http://codefellows.org')
     # job_num += 1
     answer = red.get('answer')
+    answer = int(answer)
     answer += 1
     answer = red.set('answer')
     # red.set(job_num)
