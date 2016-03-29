@@ -17,7 +17,7 @@ def main():
     answer = red.get('answer')
     answer = int(answer)
     answer += 1
-    answer = red.set('answer', answer)
+    red.set('answer', answer)
     # red.set(job_num)
     print(answer, response.status_code)
 
