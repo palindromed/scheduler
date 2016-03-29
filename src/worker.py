@@ -49,4 +49,4 @@ def send_mail(subject, text):
 
 
 if __name__ == '__main__':
-    main()
+    main('curiosity')
