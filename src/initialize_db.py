@@ -13,8 +13,7 @@ from models import (
 )
 
 
-def main(results):
-
+def main():
     database_url = os.environ.get("MARS_DATABASE_URL", None)
     engine = create_engine(database_url)
     DBSession.configure(bind=engine)
@@ -81,3 +80,6 @@ def init_rovers_and_cameras():
     DBSession.add_all(camera_list)
     DBSession.flush()
     transaction.commit()
+
+if __name__ == '__main__':
+    main()
