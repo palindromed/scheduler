@@ -29,25 +29,27 @@ def main(rover):
     new = os.getenv("NEW_REDIS")
     if new:
         print('new')
-        sol = 0
+        sol = '0'
         red.set('SOL', sol)
-        page = 1
+        page = '1'
         red.set('PAGE', page)
         os.environ['NEW_REDIS'] = 'False'
         print(sol, page)
     else:
-        sol = int(red.get('SOL'))
-        page = int(red.get('PAGE'))
+        sol = red.get('SOL')
+        page = red.get('PAGE')
         print(sol, page)
     try:
         # save in label, check to see if sol or page should increase
         to_increase = get_one_sol(rover, sol, page)
         if to_increase == 'sol':
+            sol = int(sol)
             sol += 1
             red.set('SOL', sol)
             red.set('PAGE', 1)
             print(sol, page)
         elif to_increase == 'page':
+            page = int(page)
             page += 1
             red.set('page', page)
             print(sol, page)
