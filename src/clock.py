@@ -9,6 +9,7 @@ scheduler = BlockingScheduler()
 
 @scheduler.scheduled_job('interval', minutes=5)
 def timed_job():
+    print('clock is ticking')
     main('curiosity')
 
 
