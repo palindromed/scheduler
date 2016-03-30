@@ -39,8 +39,7 @@ def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
         if photo['id'] not in found_ids:
             lst.append(photo)
             found_ids.add(photo['id'])
-    print(lst[-1])
-    populate_from_data(lst)
+        populate_from_data(lst)
     return 'page'
 
 
@@ -54,6 +53,7 @@ def populate_from_data(results):
     # with transaction.manager:
     #     DBSession.add_all(photo_list)
     #     DBSession.flush()
+    print('try querying db')
     photos = DBSession.query(Rover).all()
     print(photos)
 
