@@ -1,6 +1,6 @@
 from __future__ import unicode_literals, print_function
 import os
-# from latest_api_call import get_one_sol
+from latest_api_call import get_one_sol
 import redis
 import requests
 import os
@@ -41,11 +41,11 @@ def main(rover):
         print(sol, page)
     try:
         # save in label, check to see if sol or page should increase
-        to_increase = get_one_sol(sol, page)
+        to_increase = get_one_sol(rover, sol, page)
         if to_increase == 'sol':
             sol += 1
-            # red.set('SOL', sol)
-            # red.set('PAGE', 1)
+            red.set('SOL', sol)
+            red.set('PAGE', 1)
             print(sol, page)
         elif to_increase == 'page':
             page += 1
@@ -71,55 +71,6 @@ def send_mail(subject, text):
               "text": "{}".format(text)})
 
 
-def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
-    """Make API call to NASA."""
-    url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos'
-    lst = []
-    found_ids = set()
-    params = {
-        'sol': sol,
-        'page': page,
-        'api_key': NASA_API_KEY,
-    }
-    resp = requests.get(url, params=params)
-    print(resp)
-    resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
-    content, encoding = resp.content, resp.encoding
-    photo_data = json.loads(content.decode(encoding))
-    photos = photo_data['photos']
-    if not photos:
-        return 'sol'
-    for photo in photos:
-        if photo['id'] not in found_ids:
-            lst.append(photo)
-            found_ids.add(photo['id'])
-    print(lst[-1])
-    return lst
-
-
-def populate_from_data(results):
-    """Push the given list of photo dictionaries into the database."""
-    photo_list = [Photo(**result) for result in results]
-    database_url = os.environ.get("MARS_DATABASE_URL", None)
-    engine = create_engine(database_url)
-    DBSession.configure(bind=engine)
-    Base.metadata.create_all(engine)
-    with transaction.manager:
-        DBSession.add_all(photo_list)
-        DBSession.flush()
-    photos = DBSession.query(Photo).limit(15)
-    print(photos)
-
-
-def get_one_sol(rover, sol, page):
-    print(rover, sol, page)
-    results = fetch_photo_data(rover, sol, page)
-    if results == 'sol':
-        print('sol')
-        return 'sol'
-    #populate_from_data(results)
-    print('page')
-    return 'page'
 
 
 # if __name__ == '__main__':
