@@ -23,20 +23,21 @@ def main(rover):
         send_mail(subject, text)
     new = os.getenv("NEW_REDIS")
     if new:
-        print('new')
         sol = '0'
         red.set('SOL', sol)
         page = '1'
         red.set('PAGE', page)
         os.environ['NEW_REDIS'] = 'False'
-        print(sol, page)
+        print('new', sol, page)
     else:
         sol = red.get('SOL')
         page = red.get('PAGE')
-        print(sol, page)
+        print('not new', sol, page)
     try:
         # save in label, check to see if sol or page should increase
+        print('reached to_increase')
         to_increase = fetch_photo_data(rover, sol, page)
+        print('to increase', to_increase)
         if to_increase == 'sol':
             sol = int(sol)
             sol += 1
@@ -48,6 +49,7 @@ def main(rover):
             page += 1
             red.set('page', page)
             print(sol, page)
+        print('success')
         subject = 'Success!!'
         text = "All went well in API call. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)

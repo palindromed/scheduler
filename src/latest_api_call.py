@@ -47,9 +47,9 @@ def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
     database_url = os.environ.get("MARS_DATABASE_URL", None)
-    engine = create_engine(database_url)
-    DBSession.configure(bind=engine)
-    Base.metadata.create_all(engine)
+    # engine = create_engine(database_url)
+    # DBSession.configure(bind=engine)
+    # Base.metadata.create_all(engine)
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
