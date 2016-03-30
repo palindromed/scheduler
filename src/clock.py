@@ -7,7 +7,7 @@ from worker import main
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job('interval', minutes=1)
+@scheduler.scheduled_job('interval', minutes=2)
 def timed_job():
     main('curiosity')
     main('curiosity')
