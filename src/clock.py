@@ -7,15 +7,10 @@ from worker import main
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job('interval', minutes=2)
+@scheduler.scheduled_job('interval', seconds=8)
 def timed_job():
     main('curiosity')
-    main('curiosity')
-    main('curiosity')
-    main('curiosity')
-    main('curiosity')
-    main('curiosity')
-    main('curiosity')
+
 
 
 def my_listener(event):
