@@ -1,16 +1,8 @@
 from __future__ import unicode_literals, print_function
 import os
-from latest_api_call import fetch_photo_data
+from latest_api_call import get_one_sol
 import redis
 import requests
-
-
-ROVERS = {
-    'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',
-    'Opportunity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos',
-    'Spirit': 'https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos',
-}
-NASA_API_KEY = os.environ.get('NASA_API_KEY')
 
 
 def main(rover):
@@ -18,33 +10,23 @@ def main(rover):
     if redis_url is not None:
         red = redis.from_url(redis_url)
     else:
-        subject = "Redis Error"
-        text = "Could not connect to Redis. Unable to get SOL and page"
-        send_mail(subject, text)
+        print('Redis error')
     sol = int(red.get('SOL'))
     page = int(red.get('PAGE'))
     try:
-        to_increase = fetch_photo_data(rover, sol, page)
+        to_increase = get_one_sol(rover, sol, page)
         print('to increase', to_increase)
         if to_increase == 'sol':
-            # sol_num = int(sol)
             sol += 1
             red.set('SOL', sol)
             red.set('PAGE', 1)
             print(sol, page)
         elif to_increase == 'page':
-            # page_num = page
             page += 1
             red.set('PAGE', page)
             print(sol, page)
-        subject = 'Success!!'
-        text = "All went well in API call. SOL for call was {} on page {}.".format(sol, page)
-        send_mail(subject, text)
-        print(sol)
     except requests.exceptions.HTTPError:
-        subject = "API Error",
-        text = "There was a problem connecting to the API. SOL for call was {} on page {}.".format(sol, page)
-        send_mail(subject, text)
+        print('API error or no data for {} on {}.'.format(sol, page))
         sol += 1
         red.set('SOL', sol)
         red.set('PAGE', 1)

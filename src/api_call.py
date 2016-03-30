@@ -41,17 +41,12 @@ def fetch_photo_data(rover, sol, page):
         if photo['id'] not in found_ids:
             lst.append(photo)
             found_ids.add(photo['id'])
-        # populate_from_data(lst)
     return 'page'
 
 
 def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
-    database_url = os.environ.get("MARS_DATABASE_URL", None)
-    engine = create_engine(database_url)
-    DBSession.configure(bind=engine)
-    Base.metadata.create_all(engine)
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
@@ -64,6 +59,3 @@ def get_one_sol(rover, sol, page):
     populate_from_data(results)
     return 'page'
 
-
-if __name__ == '__main__':
-     fetch_photo_data('curiosity', 0, 1)
