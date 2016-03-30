@@ -41,7 +41,8 @@ def fetch_photo_data(rover, sol, page):
         if photo['id'] not in found_ids:
             lst.append(photo)
             found_ids.add(photo['id'])
-        populate_from_data(lst)
+        # populate_from_data(lst)
+    return 'page'
 
 
 def populate_from_data(results):
