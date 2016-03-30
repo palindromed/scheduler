@@ -54,7 +54,7 @@ def populate_from_data(results):
     #     DBSession.add_all(photo_list)
     #     DBSession.flush()
     print('try querying db')
-    photos = DBSession.query(Camera).all()
+    photos = DBSession.query(Rover).all()
     print(photos)
 
 

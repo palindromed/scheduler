@@ -79,7 +79,7 @@ def init_rovers_and_cameras():
     DBSession.add_all(camera_list)
     DBSession.add_all(rover_list)
     DBSession.flush()
-    transaction.commit()
+
     posts = DBSession.query(Rover).all()
     print(posts)
 
