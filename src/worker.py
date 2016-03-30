@@ -46,7 +46,7 @@ def main(rover):
             sol = int(sol)
             sol += 1
             red.set('SOL', sol)
-            red.set('PAGE', 1)
+            red.set('PAGE', '1')
             print(sol, page)
         elif to_increase == 'page':
             page = int(page)
