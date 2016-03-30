@@ -21,22 +21,22 @@ def main(rover):
         subject = "Redis Error"
         text = "Could not connect to Redis. Unable to get SOL and page"
         send_mail(subject, text)
-    sol = red.get('SOL')
-    page = red.get('PAGE')
+    sol = int(red.get('SOL'))
+    page = int(red.get('PAGE'))
     try:
         to_increase = fetch_photo_data(rover, sol, page)
         print('to increase', to_increase)
         if to_increase == 'sol':
-            sol_num = int(sol)
-            sol_num += 1
-            red.set('SOL', sol_num)
+            # sol_num = int(sol)
+            sol += 1
+            red.set('SOL', sol)
             red.set('PAGE', 1)
             print(sol, page)
         elif to_increase == 'page':
-            page_num = int(page)
-            page_num += 1
-            red.set('page', page_num)
-            print(sol, page_num)
+            # page_num = page
+            page += 1
+            red.set('PAGE', page)
+            print(sol, page)
         subject = 'Success!!'
         text = "All went well in API call. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)
