@@ -1,4 +1,6 @@
 # _*_ Coding: utf-8 _*_
+# heroku addons:create heroku-postgresql:hobby-basic
+#  heroku pg:promote HEROKU_POSTGRESQL_MAROON
 """Make a live API call and populate the database from the results."""
 from __future__ import unicode_literals
 
