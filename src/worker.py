@@ -45,6 +45,9 @@ def main(rover):
         subject = "API Error",
         text = "There was a problem connecting to the API. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)
+        sol += 1
+        red.set('SOL', sol)
+        red.set('PAGE', 1)
 
 
 def send_mail(subject, text):

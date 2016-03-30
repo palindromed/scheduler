@@ -32,9 +32,11 @@ def fetch_photo_data(rover, sol, page):
     }
     resp = requests.get(url, params=params)
     resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
+    print(resp.headers)
     content, encoding = resp.content, resp.encoding
     photo_data = json.loads(content.decode(encoding))
     photos = photo_data['photos']
+    print(photos)
     if not photos:
         return 'sol'
     for photo in photos:
@@ -66,4 +68,4 @@ def get_one_sol(rover, sol, page):
 
 
 if __name__ == '__main__':
-     fetch_photo_data('curiosity', 0, 4490)
+     fetch_photo_data('curiosity', 0, 1)
