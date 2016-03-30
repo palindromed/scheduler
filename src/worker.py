@@ -27,14 +27,17 @@ def main(rover):
         send_mail(subject, text)
     new = os.getenv("NEW_REDIS")
     if new:
+        print('new')
         sol = 0
         red.set('SOL', sol)
         page = 1
         red.set('PAGE', page)
         os.environ['new'] = 'False'
+        print(sol, page)
     else:
         sol = int(red.get('SOL'))
         page = int(red.get('PAGE'))
+        print(sol, page)
     try:
         # save in label, check to see if sol or page should increase
         to_increase = get_one_sol(sol, page)
@@ -42,9 +45,11 @@ def main(rover):
             sol += 1
             red.set('SOL', sol)
             red.set('PAGE', 1)
+            print(sol, page)
         elif to_increase == 'page':
             page += 1
             red.set('page', page)
+            print(sol, page)
         subject = 'Success!!'
         text = "All went well in API call. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)

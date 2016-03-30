@@ -62,5 +62,5 @@ def get_one_sol(rover, sol, page):
     return 'page'
 
 
-# if __name__ == '__main__':
-#     main('curiosity', 0, 0)
+if __name__ == '__main__':
+     get_one_sol('curiosity', 0, 0)
