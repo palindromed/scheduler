@@ -1,14 +1,9 @@
 from __future__ import unicode_literals, print_function
 import os
-from latest_api_call import get_one_sol
+from latest_api_call import fetch_photo_data
 import redis
 import requests
-import os
-import json
-import transaction
-from sqlalchemy import create_engine
-# from mars_street_view.scripts import
-from models import DBSession, Photo, Base
+
 
 ROVERS = {
     'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',
@@ -41,7 +36,7 @@ def main(rover):
         print(sol, page)
     try:
         # save in label, check to see if sol or page should increase
-        to_increase = get_one_sol(rover, sol, page)
+        to_increase = fetch_photo_data(rover, sol, page)
         if to_increase == 'sol':
             sol = int(sol)
             sol += 1

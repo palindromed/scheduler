@@ -39,10 +39,12 @@ def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
         if photo['id'] not in found_ids:
             lst.append(photo)
             found_ids.add(photo['id'])
-    return lst
+    populate_from_data(lst)
+    return 'page'
 
 
 def populate_from_data(results):
+    print(results)
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
     database_url = os.environ.get("MARS_DATABASE_URL", None)
@@ -56,15 +58,15 @@ def populate_from_data(results):
     print(photos)
 
 
-def get_one_sol(rover, sol, page):
-    print(rover, sol, page)
-    results = fetch_photo_data(rover, sol, page)
-    if results == 'sol':
-        print('sol')
-        return 'sol'
-    populate_from_data(results)
-    print('page')
-    return 'page'
+# def get_one_sol(rover, sol, page):
+#     print(rover, sol, page)
+#     results = fetch_photo_data(rover, sol, page)
+#     if results == 'sol':
+#         print('sol')
+#         return 'sol'
+#     populate_from_data(results)
+#     print('page')
+#     return 'page'
 
 
 # if __name__ == '__main__':
