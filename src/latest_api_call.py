@@ -8,7 +8,7 @@ import json
 import transaction
 from sqlalchemy import create_engine
 # from mars_street_view.scripts import initializedb
-from models import DBSession, Photo, Base, Rover
+from models import DBSession, Photo, Base, Rover, Camera
 
 ROVERS = {
     'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',
@@ -54,7 +54,7 @@ def populate_from_data(results):
     #     DBSession.add_all(photo_list)
     #     DBSession.flush()
     print('try querying db')
-    photos = DBSession.query(Rover).all()
+    photos = DBSession.query(Camera).all()
     print(photos)
 
 
