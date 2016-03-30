@@ -27,16 +27,16 @@ def main(rover):
         to_increase = fetch_photo_data(rover, sol, page)
         print('to increase', to_increase)
         if to_increase == 'sol':
-            sol = int(sol)
-            sol += 1
-            red.set('SOL', sol)
-            red.set('PAGE', '1')
+            sol_num = int(sol)
+            sol_num += 1
+            red.set('SOL', sol_num)
+            red.set('PAGE', 1)
             print(sol, page)
         elif to_increase == 'page':
-            page = int(page)
-            page += 1
-            red.set('page', page)
-            print(sol, page)
+            page_num = int(page)
+            page_num += 1
+            red.set('page', page_num)
+            print(sol, page_num)
         subject = 'Success!!'
         text = "All went well in API call. SOL for call was {} on page {}.".format(sol, page)
         send_mail(subject, text)
