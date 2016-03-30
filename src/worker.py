@@ -1,6 +1,6 @@
 from __future__ import unicode_literals, print_function
 import os
-from latest_api_call import get_one_sol
+from api_call import get_one_sol
 import redis
 import requests
 
