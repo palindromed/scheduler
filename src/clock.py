@@ -7,7 +7,7 @@ from worker import main, send_mail
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job('interval', minutes=5)
+@scheduler.scheduled_job('interval', minutes=2)
 def timed_job():
     print('clock is ticking')
     main('curiosity')
