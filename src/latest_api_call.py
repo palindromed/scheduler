@@ -20,7 +20,7 @@ ROVERS = {
 NASA_API_KEY = os.environ.get('NASA_API_KEY')
 
 
-def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
+def fetch_photo_data(rover, sol, page):
     """Make API call to NASA."""
     url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos'
     lst = []
@@ -47,29 +47,23 @@ def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
 
 def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
-    #photo_list = [Photo(**result) for result in results]
-    # database_url = os.environ.get("MARS_DATABASE_URL", None)
-    # engine = create_engine(database_url)
-    # DBSession.configure(bind=engine)
-    # Base.metadata.create_all(engine)
-    # with transaction.manager:
-    #     DBSession.add_all(photo_list)
-    #     DBSession.flush()
-    print('try querying db')
-    photos = DBSession.query(Rover).all()
-    print(photos)
+    photo_list = [Photo(**result) for result in results]
+    database_url = os.environ.get("MARS_DATABASE_URL", None)
+    engine = create_engine(database_url)
+    DBSession.configure(bind=engine)
+    Base.metadata.create_all(engine)
+    with transaction.manager:
+        DBSession.add_all(photo_list)
+        DBSession.flush()
 
 
-# def get_one_sol(rover, sol, page):
-#     print(rover, sol, page)
-#     results = fetch_photo_data(rover, sol, page)
-#     if results == 'sol':
-#         print('sol')
-#         return 'sol'
-#     populate_from_data(results)
-#     print('page')
-#     return 'page'
+def get_one_sol(rover, sol, page):
+    results = fetch_photo_data(rover, sol, page)
+    if results == 'sol':
+        return 'sol'
+    populate_from_data(results)
+    return 'page'
 
 
-# if __name__ == '__main__':
-#      get_one_sol('curiosity', 0, 0)
+if __name__ == '__main__':
+     fetch_photo_data('curiosity', 0, 1)
