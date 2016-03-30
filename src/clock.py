@@ -2,14 +2,13 @@ from __future__ import unicode_literals
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import (EVENT_JOB_EXECUTED, EVENT_JOB_ERROR,
                                 EVENT_JOB_MISSED)
-from worker import main, send_mail
+from worker import main
 
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job('interval', minutes=2)
+@scheduler.scheduled_job('interval', seconds=10)
 def timed_job():
-    print('clock is ticking')
     main('curiosity')
 
 
