@@ -35,7 +35,6 @@ def fetch_photo_data(rover, sol, page):
     content, encoding = resp.content, resp.encoding
     photo_data = json.loads(content.decode(encoding))
     photos = photo_data['photos']
-    print(photos)
     if not photos:
         return 'sol'
     for photo in photos:
