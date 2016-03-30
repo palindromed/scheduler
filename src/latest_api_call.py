@@ -52,15 +52,20 @@ def populate_from_data(results):
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
+    photos = DBSession.query(Photo).limit(15)
+    print(photos)
 
 
 def get_one_sol(rover, sol, page):
+    print(rover, sol, page)
     results = fetch_photo_data(rover, sol, page)
     if results == 'sol':
+        print('sol')
         return 'sol'
     populate_from_data(results)
+    print('page')
     return 'page'
 
 
-if __name__ == '__main__':
-     get_one_sol('curiosity', 0, 0)
+# if __name__ == '__main__':
+#      get_one_sol('curiosity', 0, 0)
