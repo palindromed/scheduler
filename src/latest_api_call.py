@@ -44,7 +44,6 @@ def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
 
 
 def populate_from_data(results):
-    print(results)
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
     database_url = os.environ.get("MARS_DATABASE_URL", None)
