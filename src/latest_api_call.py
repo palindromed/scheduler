@@ -45,7 +45,6 @@ def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
 
 
 def populate_from_data(results):
-    print(results)
     """Push the given list of photo dictionaries into the database."""
     #photo_list = [Photo(**result) for result in results]
     # database_url = os.environ.get("MARS_DATABASE_URL", None)
@@ -55,7 +54,7 @@ def populate_from_data(results):
     # with transaction.manager:
     #     DBSession.add_all(photo_list)
     #     DBSession.flush()
-    photos = DBSession.query(Rover).limit(15)
+    photos = DBSession.query(Rover).all()
     print(photos)
 
 
