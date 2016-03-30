@@ -32,7 +32,6 @@ def fetch_photo_data(rover, sol, page):
     }
     resp = requests.get(url, params=params)
     resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
-    print(resp.headers)
     content, encoding = resp.content, resp.encoding
     photo_data = json.loads(content.decode(encoding))
     photos = photo_data['photos']
