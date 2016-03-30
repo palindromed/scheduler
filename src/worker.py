@@ -7,18 +7,24 @@ import redis
 import requests
 
 
-def connect_to_redis():
+# def connect_to_redis():
+#     redis_url = os.getenv('REDISTOGO_URL', None)
+#     if redis_url is not None:
+#         return redis.from_url(redis_url)
+#     else:
+#         subject = "Redis Error"
+#         text = "Could not connect to Redis. Unable to get SOL and page"
+#         send_mail(subject, text)
+
+
+def main(rover):
     redis_url = os.getenv('REDISTOGO_URL', None)
     if redis_url is not None:
-        return redis.from_url(redis_url)
+        red = redis.from_url(redis_url)
     else:
         subject = "Redis Error"
         text = "Could not connect to Redis. Unable to get SOL and page"
         send_mail(subject, text)
-
-
-def main(rover):
-    red = connect_to_redis()
     new = os.getenv("NEW_REDIS")
     if new:
         sol = 0
