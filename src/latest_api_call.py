@@ -8,7 +8,7 @@ import json
 import transaction
 from sqlalchemy import create_engine
 # from mars_street_view.scripts import initializedb
-from models import DBSession, Photo, Base
+from models import DBSession, Photo, Base, Rover
 
 ROVERS = {
     'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',
@@ -40,21 +40,22 @@ def fetch_photo_data(rover, sol, page): # add page, do we need url and rover?
             lst.append(photo)
             found_ids.add(photo['id'])
     print(lst[-1])
-    # populate_from_data(lst)
+    populate_from_data(lst)
     return 'page'
 
 
 def populate_from_data(results):
+    print(results)
     """Push the given list of photo dictionaries into the database."""
-    photo_list = [Photo(**result) for result in results]
-    database_url = os.environ.get("MARS_DATABASE_URL", None)
+    #photo_list = [Photo(**result) for result in results]
+    # database_url = os.environ.get("MARS_DATABASE_URL", None)
     # engine = create_engine(database_url)
     # DBSession.configure(bind=engine)
     # Base.metadata.create_all(engine)
-    with transaction.manager:
-        DBSession.add_all(photo_list)
-        DBSession.flush()
-    photos = DBSession.query(Photo).limit(15)
+    # with transaction.manager:
+    #     DBSession.add_all(photo_list)
+    #     DBSession.flush()
+    photos = DBSession.query(Rover).limit(15)
     print(photos)
 
 
