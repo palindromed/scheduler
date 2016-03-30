@@ -34,10 +34,8 @@ def fetch_photo_data(rover, sol, page):
     resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
     content, encoding = resp.content, resp.encoding
     photo_data = json.loads(content.decode(encoding))
-    try:
-        photos = photo_data['photos']
-        print(photos, '\n\n')
-    except KeyError:
+    photos = photo_data['photos']
+    if not photos:
         return 'sol'
     for photo in photos:
         if photo['id'] not in found_ids:
