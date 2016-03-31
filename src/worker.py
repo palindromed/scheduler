@@ -1,36 +1,37 @@
 from __future__ import unicode_literals, print_function
 import os
-from api_call import get_one_sol
+from api_call import get_one_sol, populate_from_data
 import redis
 import requests
 
 
 def main(rover):
-    redis_url = os.getenv('REDISTOGO_URL', None)
-    if redis_url is not None:
-        red = redis.from_url(redis_url)
-    else:
-        return 'Redis error'
-    sol = int(red.get('SOL'))
-    page = int(red.get('PAGE'))
-    print('check initial sol/page', sol, page)
-    try:
-        to_increase = get_one_sol(rover, sol, page)
-        print('to increase', to_increase)
-        if to_increase == 'sol':
-            sol += 1
-            red.set('SOL', sol)
-            red.set('PAGE', 1)
-            print(sol, page)
-        elif to_increase == 'page':
-            page += 1
-            red.set('PAGE', page)
-            print(sol, page)
-    except requests.exceptions.HTTPError:
-        print('API error or no data for {} on {}.'.format(sol, page))
-        sol += 1
-        red.set('SOL', sol)
-        red.set('PAGE', 1)
+    # redis_url = os.getenv('REDISTOGO_URL', None)
+    # if redis_url is not None:
+    #     red = redis.from_url(redis_url)
+    # else:
+    #     return 'Redis error'
+    # sol = int(red.get('SOL'))
+    # page = int(red.get('PAGE'))
+    # print('check initial sol/page', sol, page)
+    # try:
+    # to_increase = get_one_sol(rover, sol, page)
+    populate_from_data([])
+    #     print('to increase', to_increase)
+    #     if to_increase == 'sol':
+    #         sol += 1
+    #         red.set('SOL', sol)
+    #         red.set('PAGE', 1)
+    #         print(sol, page)
+    #     elif to_increase == 'page':
+    #         page += 1
+    #         red.set('PAGE', page)
+    #         print(sol, page)
+    # except requests.exceptions.HTTPError:
+    #     print('API error or no data for {} on {}.'.format(sol, page))
+    #     sol += 1
+    #     red.set('SOL', sol)
+    #     red.set('PAGE', 1)
 
 
 def send_mail(subject, text):
