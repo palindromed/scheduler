@@ -57,7 +57,8 @@ def populate_from_data(results):
     photo_list = [Photo(**result) for result in results]
     with transaction.manager:
         session.add_all(photo_list)
-        print('Put to database')
+        session.flush()
+    print('Put to database')
 
 
 
