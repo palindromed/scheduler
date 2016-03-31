@@ -10,22 +10,9 @@ import json
 import transaction
 from models import Photo, Rover
 from sqlalchemy import create_engine
-from models import DBSession, Base
-# from models import DBSession, Base
-from zope.sqlalchemy import ZopeTransactionExtension
-
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-)
-
-
-# Base = declarative_base()
-
-# DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
-
+Base = declarative_base()
 
 
 ROVERS = {
@@ -62,17 +49,39 @@ def fetch_photo_data(rover, sol, page):
 
 def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
+    database_url = os.environ.get("MARS_DATABASE_URL", None)
+    engine = create_engine(database_url)
+    Session = sessionmaker(bind=engine)
+    Base.metadata.create_all(engine)
+    session = Session()
     photo_list = [Photo(**result) for result in results]
-    print('photo_list made: {}'.format(len(photo_list)))
-    posts = DBSession.query(Rover).all()
-    print(posts)
     with transaction.manager:
-        DBSession.add_all(photo_list)
-        DBSession.flush()
-    # transaction.commit()
-    # DBSession.close()
-    print('Put to Database')
+        session.add_all(photo_list)
 
+
+
+   #  def populate_from_data(results):
+   #  create_engine
+   #  build sessionmaker
+   #  bind Base.metadata to engine
+   #  make session
+   #  make photo list
+   #  with transaction.manager:
+   #      session.add_all(photos)
+
+
+   #  print('photo_list made: {}'.format(len(photo_list)))
+   #  posts = DBSession.query(Rover).all()
+   #  print(posts)
+   #  with transaction.manager:
+   #      DBSession.add_all(photo_list)
+   #      DBSession.flush()
+   #  print('Put to Database')
+
+   # database_url = os.environ.get("MARS_DATABASE_URL", None)
+   #  engine = create_engine(database_url)
+   #  DBSession.configure(bind=engine)
+   #  Base.metadata.create_all(engine)
 
 def get_one_sol(rover, sol, page):
     results = fetch_photo_data(rover, sol, page)
