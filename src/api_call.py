@@ -58,8 +58,10 @@ def populate_from_data(results):
     Base.metadata.create_all(engine)
     DBSession = DBSession()
     photo_list = [Photo(**result) for result in results]
-    with transaction.manager:
-        DBSession.add_all(photo_list)
+    # with transaction.manager:
+    DBSession.add_all(photo_list)
+    DBSession.commit()
+    DBSession.close()
         # session.flush()
     print('Put to database')
 
