@@ -10,16 +10,16 @@ from models import (
     Rover,
     Camera
 )
+from sqlalchemy.orm import sessionmaker
 
 
-def main():
-    database_url = os.environ.get("MARS_DATABASE_URL", None)
-    engine = create_engine(database_url)
-    DBSession = sessionmaker(bind=engine)
-    Base.metadata.create_all(engine)
-    DBSession = DBSession()
-    init_rovers_and_cameras()
-    redis_init()
+
+database_url = os.environ.get("MARS_DATABASE_URL", None)
+engine = create_engine(database_url)
+DBSession = sessionmaker(bind=engine)
+Base.metadata.create_all(engine)
+DBSession = DBSession()
+
 
 
 def redis_init():
@@ -93,4 +93,5 @@ def init_rovers_and_cameras():
     print(posts)
 
 if __name__ == '__main__':
-    main()
+    init_rovers_and_cameras()
+    redis_init()
