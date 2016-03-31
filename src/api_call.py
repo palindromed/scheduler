@@ -50,6 +50,8 @@ def fetch_photo_data(rover, sol, page):
 def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
     database_url = os.environ.get("MARS_DATABASE_URL", None)
+    if database_url is None:
+        print('None')
     engine = create_engine(database_url)
     Session = sessionmaker(bind=engine)
     Base = declarative_base()
