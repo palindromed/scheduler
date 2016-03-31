@@ -6,7 +6,6 @@ from sqlalchemy import create_engine
 
 
 from models import (
-    DBSession,
     Base,
     Rover,
     Camera
@@ -16,8 +15,9 @@ from models import (
 def main():
     database_url = os.environ.get("MARS_DATABASE_URL", None)
     engine = create_engine(database_url)
-    DBSession.configure(bind=engine)
+    DBSession = sessionmaker(bind=engine)
     Base.metadata.create_all(engine)
+    DBSession = DBSession()
     init_rovers_and_cameras()
     redis_init()
 
@@ -87,7 +87,7 @@ def init_rovers_and_cameras():
     with transaction.manager:
         DBSession.add_all(camera_list)
         DBSession.add_all(rover_list)
-        DBSession.flush()
+        DBSession.commit()
 
     posts = DBSession.query(Rover).all()
     print(posts)
