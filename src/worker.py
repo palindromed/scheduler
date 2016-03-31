@@ -10,9 +10,10 @@ def main(rover):
     if redis_url is not None:
         red = redis.from_url(redis_url)
     else:
-        print('Redis error')
+        return 'Redis error'
     sol = int(red.get('SOL'))
     page = int(red.get('PAGE'))
+    print('check initial sol/page', sol, page)
     try:
         to_increase = get_one_sol(rover, sol, page)
         print('to increase', to_increase)

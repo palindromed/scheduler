@@ -8,7 +8,8 @@ scheduler = BlockingScheduler()
 
 @scheduler.scheduled_job('interval', seconds=8)
 def timed_job():
-    main('opportunity')
+    return_value = main('opportunity')
+    print(return_value)
 
 
 scheduler.start()
