@@ -14,23 +14,23 @@ def main(rover):
     sol = int(red.get('SOL'))
     page = int(red.get('PAGE'))
     print('check initial sol/page', sol, page)
-    # try:
-    to_increase = get_one_sol(rover, sol, page)
-    print('to increase', to_increase)
-    #     if to_increase == 'sol':
-    #         sol += 1
-    #         red.set('SOL', sol)
-    #         red.set('PAGE', 1)
-    #         print(sol, page)
-    #     elif to_increase == 'page':
-    #         page += 1
-    #         red.set('PAGE', page)
-    #         print(sol, page)
-    # except requests.exceptions.HTTPError:
-    #     print('API error or no data for {} on {}.'.format(sol, page))
-    #     sol += 1
-    #     red.set('SOL', sol)
-    #     red.set('PAGE', 1)
+    try:
+        to_increase = get_one_sol(rover, sol, page)
+        print('to increase', to_increase)
+        if to_increase == 'sol':
+            sol += 1
+            red.set('SOL', sol)
+            red.set('PAGE', 1)
+            print(sol, page)
+        elif to_increase == 'page':
+            page += 1
+            red.set('PAGE', page)
+            print(sol, page)
+    except requests.exceptions.HTTPError:
+        print('API error or no data for {} on {}.'.format(sol, page))
+        sol += 1
+        red.set('SOL', sol)
+        red.set('PAGE', 1)
 
 
 def send_mail(subject, text):
