@@ -8,12 +8,28 @@ import os
 import requests
 import json
 import transaction
-# from sqlalchemy import create_engine
-# from mars_street_view.scripts import initializedb
-from models import DBSession, Photo, Base, Rover
-# from sqlalchemy import create_engine
+from models import Photo, Rover
+from sqlalchemy import create_engine
 # from models import DBSession, Base
-# import os
+from models import DBSession, Base
+from zope.sqlalchemy import ZopeTransactionExtension
+
+from sqlalchemy.ext.declarative import declarative_base
+
+from sqlalchemy.orm import (
+    scoped_session,
+    sessionmaker,
+)
+
+
+
+database_url = os.environ.get("MARS_DATABASE_URL", None)
+engine = create_engine(database_url)
+# DBSession.configure(bind=engine)
+Base.metadata.create_all(engine)
+DBSession = scoped_session(sessionmaker(bind=engine, extension=ZopeTransactionExtension(), expire_on_commit=False))
+Base = declarative_base()
+
 
 ROVERS = {
     'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',

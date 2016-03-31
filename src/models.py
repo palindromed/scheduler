@@ -23,6 +23,7 @@ from sqlalchemy.orm.exc import (
 from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
+# DBSession = scoped_session(sessionmaker(bind=engine, extension=ZopeTransactionExtension(), expire_on_commit=False))
 Base = declarative_base()
 
 
