@@ -23,7 +23,7 @@ ROVERS = {
 NASA_API_KEY = os.environ.get('NASA_API_KEY')
 
 
-def fetch_photo_data(rover, sol):
+def fetch_photo_data(rover, sol, camera=None):
     try:
         url = ROVERS[rover]
     except KeyError:
@@ -37,16 +37,18 @@ def fetch_photo_data(rover, sol):
             'page': page,
             'api_key': NASA_API_KEY,
         }
-        # if camera:
-        #     params['camera'] = camera
+        if camera:
+            params['camera'] = camera
         resp = requests.get(url, params=params)
         # import pdb; pdb.set_trace()
         if resp.status_code == 400:
-            # params['camera'] = camera or ''
+            params['camera'] = camera or ''
             print('400 response for {0} {camera} sol {sol} page={page}'
                   ''.format(rover, **params))
             break
-        photo_data = resp.json
+        #photo_data = resp.json
+        content, encoding = resp.content, resp.encoding
+        photo_data = json.loads(content.decode(encoding))
         photos = photo_data['photos']
         if not photos:
             break
