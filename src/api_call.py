@@ -23,28 +23,63 @@ ROVERS = {
 NASA_API_KEY = os.environ.get('NASA_API_KEY')
 
 
-def fetch_photo_data(rover, sol, page):
-    """Make API call to NASA."""
-    url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos'
+def fetch_photo_data(rover, sol):
+    try:
+        url = ROVERS[rover]
+    except KeyError:
+        raise ValueError('Incorrect rover name provided.')
+    page = 1
     lst = []
     found_ids = set()
-    params = {
-        'sol': sol,
-        'page': page,
-        'api_key': NASA_API_KEY,
-    }
-    resp = requests.get(url, params=params)
-    resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
-    content, encoding = resp.content, resp.encoding
-    photo_data = json.loads(content.decode(encoding))
-    photos = photo_data['photos']
-    if not photos:
-        return 'sol'
-    for photo in photos:
-        if photo['id'] not in found_ids:
-            lst.append(photo)
-            found_ids.add(photo['id'])
+    while True:
+        params = {
+            'sol': sol,
+            'page': page,
+            'api_key': NASA_API_KEY,
+        }
+        # if camera:
+        #     params['camera'] = camera
+        resp = requests.get(url, params=params)
+        # import pdb; pdb.set_trace()
+        if resp.status_code == 400:
+            # params['camera'] = camera or ''
+            print('400 response for {0} {camera} sol {sol} page={page}'
+                  ''.format(rover, **params))
+            break
+        photo_data = resp.json
+        photos = photo_data['photos']
+        if not photos:
+            break
+        for photo in photos:
+            if photo['id'] not in found_ids:
+                lst.append(photo)
+                found_ids.add(photo['id'])
+        page += 1
+
     return lst
+
+    # """Make API call to NASA."""
+    # url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos'
+    # lst = []
+    # found_ids = set()
+    # params = {
+    #     'sol': sol,
+    #     'page': page,
+    #     'api_key': NASA_API_KEY,
+    # }
+    # resp = requests.get(url, params=params)
+    # resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
+    # # content, encoding = resp.content, resp.encoding
+    # # photo_data = json.loads(content.decode(encoding))
+    # photo_data = resp.json
+    # photos = photo_data['photos']
+    # if not photos:
+    #     return 'sol'
+    # for photo in photos:
+    #     if photo['id'] not in found_ids:
+    #         lst.append(photo)
+    #         found_ids.add(photo['id'])
+    # return lst
 
 
 def populate_from_data(results):
@@ -56,14 +91,15 @@ def populate_from_data(results):
     DBSession = sessionmaker(bind=engine)
     # Base = declarative_base()
     Base.metadata.create_all(engine)
-    DBSession = DBSession()
+    session = DBSession()
     photo_list = [Photo(**result) for result in results]
     with transaction.manager:
-      DBSession.add_all(photo_list)
+        session.add_all(photo_list)
     # DBSession.flush()
       # DBSession.commit()
     # DBSession.close()
     print('Put to database')
+    session.close()
 
 
 
