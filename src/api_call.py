@@ -8,7 +8,7 @@ import os
 import requests
 import json
 import transaction
-from models import Photo, Rover
+from models import Photo, Rover, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -54,7 +54,7 @@ def populate_from_data(results):
         print('cannot connect to db')
     engine = create_engine(database_url)
     DBSession = sessionmaker(bind=engine)
-    Base = declarative_base()
+    # Base = declarative_base()
     Base.metadata.create_all(engine)
     DBSession = DBSession()
     photo_list = [Photo(**result) for result in results]
