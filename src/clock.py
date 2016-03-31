@@ -18,7 +18,7 @@ scheduler = BlockingScheduler()
 
 @scheduler.scheduled_job('interval', minutes=2)
 def timed_job():
-    return_value = main('opportunity')
+    return_value = main('Opportunity')
     print(return_value)
 
 
