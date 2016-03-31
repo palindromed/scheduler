@@ -11,7 +11,7 @@ import transaction
 from models import Photo, Rover
 from sqlalchemy import create_engine
 # from models import DBSession, Base
-from models import DBSession, Base
+# from models import DBSession, Base
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -22,12 +22,9 @@ from sqlalchemy.orm import (
 )
 
 
-# Base = declarative_base()
-database_url = os.environ.get("MARS_DATABASE_URL", None)
-engine = create_engine(database_url)
-DBSession.configure(bind=engine)
-Base.metadata.create_all(engine)
-# DBSession = scoped_session(sessionmaker(bind=engine, extension=ZopeTransactionExtension(), expire_on_commit=False))
+Base = declarative_base()
+
+DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
 
 
@@ -73,7 +70,7 @@ def populate_from_data(results):
     DBSession.add_all(photo_list)
     DBSession.flush()
     transaction.commit()
-    DBSession.close()
+    # DBSession.close()
     print('Put to Database')
 
 
