@@ -11,7 +11,7 @@ import transaction
 from models import Photo, Rover
 from sqlalchemy import create_engine
 # from models import DBSession, Base
-# from models import DBSession, Base
+from models import DBSession, Base
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -22,12 +22,12 @@ from sqlalchemy.orm import (
 )
 
 
-Base = declarative_base()
+# Base = declarative_base()
 database_url = os.environ.get("MARS_DATABASE_URL", None)
 engine = create_engine(database_url)
-# DBSession.configure(bind=engine)
+DBSession.configure(bind=engine)
 Base.metadata.create_all(engine)
-DBSession = scoped_session(sessionmaker(bind=engine, extension=ZopeTransactionExtension(), expire_on_commit=False))
+# DBSession = scoped_session(sessionmaker(bind=engine, extension=ZopeTransactionExtension(), expire_on_commit=False))
 
 
 
