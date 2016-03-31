@@ -73,6 +73,7 @@ def populate_from_data(results):
     DBSession.add_all(photo_list)
     DBSession.flush()
     transaction.commit()
+    DBSession.close()
     print('Put to Database')
 
 
