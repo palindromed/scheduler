@@ -70,10 +70,10 @@ def populate_from_data(results):
     posts = DBSession.query(Rover).all()
     print(posts)
     # with transaction.manager:
-    #     DBSession.add_all(photo_list)
-    #     DBSession.flush()
-    #     transaction.commit()
-    # print('Put to Database')
+    DBSession.add_all(photo_list)
+    DBSession.flush()
+    transaction.commit()
+    print('Put to Database')
 
 
 def get_one_sol(rover, sol, page):
