@@ -12,7 +12,7 @@ from models import Photo, Rover
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
+
 
 
 ROVERS = {
@@ -52,6 +52,7 @@ def populate_from_data(results):
     database_url = os.environ.get("MARS_DATABASE_URL", None)
     engine = create_engine(database_url)
     Session = sessionmaker(bind=engine)
+    Base = declarative_base()
     Base.metadata.create_all(engine)
     session = Session()
     photo_list = [Photo(**result) for result in results]
@@ -61,6 +62,15 @@ def populate_from_data(results):
     print('Put to database')
 
 
+
+  # database_url = os.environ.get("MARS_DATABASE_URL", None)
+  #   engine = create_engine(database_url)
+  #   DBSession.configure(bind=engine)
+  #   Base.metadata.create_all(engine)
+  #   with transaction.manager:
+  #       DBSession.add_all(camera_list)
+  #       DBSession.add_all(rover_list)
+  #       DBSession.flush()
 
    #  def populate_from_data(results):
    #  create_engine
