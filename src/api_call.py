@@ -8,7 +8,7 @@ import os
 import requests
 import json
 import transaction
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 # from mars_street_view.scripts import initializedb
 from models import DBSession, Photo, Base
 
