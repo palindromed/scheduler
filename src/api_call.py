@@ -98,7 +98,7 @@ def populate_from_data(results):
     with transaction.manager:
         session.add_all(photo_list)
     # DBSession.flush()
-      # DBSession.commit()
+    session.commit()
     # DBSession.close()
     print('Put to database')
     session.close()
