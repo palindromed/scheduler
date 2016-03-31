@@ -10,7 +10,7 @@ import json
 import transaction
 from models import Photo, Rover
 from sqlalchemy import create_engine
-# from models import DBSession, Base
+from models import DBSession, Base
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -19,14 +19,6 @@ from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
 )
-
-Base = declarative_base()
-database_url = os.environ.get("MARS_DATABASE_URL", None)
-engine = create_engine(database_url)
-# DBSession.configure(bind=engine)
-Base.metadata.create_all(engine)
-DBSession = scoped_session(sessionmaker(bind=engine, extension=ZopeTransactionExtension(), expire_on_commit=False))
-
 
 
 ROVERS = {
@@ -65,6 +57,10 @@ def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
     print('photo_list made: {}'.format(len(photo_list)))
+    database_url = os.environ.get("MARS_DATABASE_URL", None)
+    engine = create_engine(database_url)
+    DBSession.configure(bind=engine)
+    Base.metadata.create_all(engine)
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
