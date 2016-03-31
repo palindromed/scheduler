@@ -143,4 +143,4 @@ def get_one_sol(rover, sol):
     #     return 'sol'
     print('rover:{} sol:{} result length:{}'.format(rover, sol, len(results)))
     populate_from_data(results)
-    return 'page'
+    # return 'page'

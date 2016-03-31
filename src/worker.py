@@ -22,6 +22,7 @@ def main(rover):
         # red.set('SOL', sol)
         #     red.set('PAGE', 1)
             print(sol)
+            red.set('SOL', sol)
         # elif to_increase == 'page':
         #     page += 1
         #     red.set('PAGE', page)
