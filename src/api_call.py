@@ -54,7 +54,7 @@ def populate_from_data(results):
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
-    DBSession.close()
+    print('Put to Database')
 
 
 def get_one_sol(rover, sol, page):
