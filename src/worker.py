@@ -14,9 +14,9 @@ def main(rover):
     sol = int(red.get('SOL'))
     page = int(red.get('PAGE'))
     print('check initial sol/page', sol, page)
-    try:
-        to_increase = get_one_sol(rover, sol, page)
-        print('to increase', to_increase)
+    # try:
+    to_increase = get_one_sol(rover, sol, page)
+    print('to increase', to_increase)
     #     if to_increase == 'sol':
     #         sol += 1
     #         red.set('SOL', sol)
