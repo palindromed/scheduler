@@ -22,7 +22,7 @@ NASA_API_KEY = os.environ.get('NASA_API_KEY')
 
 def fetch_photo_data(rover, sol, page):
     """Make API call to NASA."""
-    url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos'
+    url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos'
     lst = []
     found_ids = set()
     params = {
