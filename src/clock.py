@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from apscheduler.schedulers.blocking import BlockingScheduler
 
+
 from worker import main
 
 scheduler = BlockingScheduler()
