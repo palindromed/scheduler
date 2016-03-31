@@ -135,10 +135,10 @@ def populate_from_data(results):
    #  DBSession.configure(bind=engine)
    #  Base.metadata.create_all(engine)
 
-def get_one_sol(rover, sol, page):
-    results = fetch_photo_data(rover, sol, page)
-    if results == 'sol':
-        return 'sol'
-    print('rover:{} sol:{} page:{} result length:{}'.format(rover, sol, page, len(results)))
+def get_one_sol(rover, sol):
+    results = fetch_photo_data(rover, sol)
+    # if results == 'sol':
+    #     return 'sol'
+    print('rover:{} sol:{} result length:{}'.format(rover, sol, len(results)))
     populate_from_data(results)
     return 'page'
