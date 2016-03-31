@@ -47,6 +47,7 @@ def fetch_photo_data(rover, sol, page):
 def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
+    print('photo_list made: {}'.format(len(photo_list)))
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
