@@ -58,6 +58,7 @@ def populate_from_data(results):
     Base.metadata.create_all(engine)
     session = Session()
     photo_list = [Photo(**result) for result in results]
+    print('photo list', len(photo_list))
     with transaction.manager:
         session.add_all(photo_list)
         session.flush()
