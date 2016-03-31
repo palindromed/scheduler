@@ -60,9 +60,9 @@ def populate_from_data(results):
     photo_list = [Photo(**result) for result in results]
     with transaction.manager:
       DBSession.add_all(photo_list)
-    DBSession.flush()
-    DBSession.commit()
-    DBSession.close()
+    # DBSession.flush()
+    # DBSession.commit()
+    # DBSession.close()
     print('Put to database')
 
 
