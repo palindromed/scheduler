@@ -19,7 +19,10 @@ from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
 )
-
+database_url = os.environ.get("MARS_DATABASE_URL", None)
+engine = create_engine(database_url)
+DBSession.configure(bind=engine)
+Base.metadata.create_all(engine)
 
 ROVERS = {
     'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',
@@ -57,10 +60,6 @@ def populate_from_data(results):
     """Push the given list of photo dictionaries into the database."""
     photo_list = [Photo(**result) for result in results]
     print('photo_list made: {}'.format(len(photo_list)))
-    database_url = os.environ.get("MARS_DATABASE_URL", None)
-    engine = create_engine(database_url)
-    DBSession.configure(bind=engine)
-    Base.metadata.create_all(engine)
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
