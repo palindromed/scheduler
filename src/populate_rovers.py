@@ -1,7 +1,7 @@
 """Initialize database for SQLAlchemy and Pyramid."""
 import os
 import transaction
-# import redis
+import redis
 from sqlalchemy import create_engine
 
 
@@ -19,14 +19,14 @@ def main():
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     init_rovers_and_cameras()
-    # redis_init()
+    redis_init()
 
 
-# def redis_init():
-#     redis_url = os.getenv('REDISTOGO_URL', None)
-#     red = redis.from_url(redis_url)
-#     red.set('SOL', 0)
-#     red.set('PAGE', 1)
+def redis_init():
+    redis_url = os.getenv('REDISTOGO_URL', None)
+    red = redis.from_url(redis_url)
+    red.set('SOL', 0)
+    red.set('PAGE', 1)
 
 
 CAMERAS = {

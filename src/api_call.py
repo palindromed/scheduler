@@ -54,12 +54,13 @@ def populate_from_data(results):
     with transaction.manager:
         DBSession.add_all(photo_list)
         DBSession.flush()
+    DBSession.close()
 
 
 def get_one_sol(rover, sol, page):
     results = fetch_photo_data(rover, sol, page)
     if results == 'sol':
         return 'sol'
+    print('rover:{} sol:{} page:{} result length:{}'.format(rover, sol, page, len(results)))
     populate_from_data(results)
     return 'page'
-
