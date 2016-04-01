@@ -1,6 +1,4 @@
 # _*_ Coding: utf-8 _*_
-# heroku addons:create heroku-postgresql:hobby-basic
-#  heroku pg:promote HEROKU_POSTGRESQL_MAROON
 """Make a live API call and populate the database from the results."""
 from __future__ import unicode_literals
 
@@ -63,15 +61,12 @@ def populate_from_data(results):
         print('cannot connect to db')
     engine = create_engine(database_url)
     DBSession = sessionmaker(bind=engine)
-    # Base = declarative_base()
     Base.metadata.create_all(engine)
     session = DBSession()
     photo_list = [Photo(**result) for result in results]
     with transaction.manager:
         session.add_all(photo_list)
-    # DBSession.flush()
     session.commit()
-    # DBSession.close()
     print('Put to database')
     session.close()
 
