@@ -8,12 +8,9 @@ import os
 import requests
 import json
 import transaction
-from models import Photo, Rover, Base
+from models import Photo, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-
-
 
 ROVERS = {
     'Curiosity': 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos',
@@ -40,13 +37,11 @@ def fetch_photo_data(rover, sol, camera=None):
         if camera:
             params['camera'] = camera
         resp = requests.get(url, params=params)
-        # import pdb; pdb.set_trace()
         if resp.status_code == 400:
             params['camera'] = camera or ''
             print('400 response for {0} {camera} sol {sol} page={page}'
                   ''.format(rover, **params))
             break
-        #photo_data = resp.json
         content, encoding = resp.content, resp.encoding
         photo_data = json.loads(content.decode(encoding))
         photos = photo_data['photos']
@@ -59,29 +54,6 @@ def fetch_photo_data(rover, sol, camera=None):
         page += 1
 
     return lst
-
-    # """Make API call to NASA."""
-    # url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos'
-    # lst = []
-    # found_ids = set()
-    # params = {
-    #     'sol': sol,
-    #     'page': page,
-    #     'api_key': NASA_API_KEY,
-    # }
-    # resp = requests.get(url, params=params)
-    # resp.raise_for_status()  # <- This is a no-op if there is no HTTP error
-    # # content, encoding = resp.content, resp.encoding
-    # # photo_data = json.loads(content.decode(encoding))
-    # photo_data = resp.json
-    # photos = photo_data['photos']
-    # if not photos:
-    #     return 'sol'
-    # for photo in photos:
-    #     if photo['id'] not in found_ids:
-    #         lst.append(photo)
-    #         found_ids.add(photo['id'])
-    # return lst
 
 
 def populate_from_data(results):
@@ -104,44 +76,8 @@ def populate_from_data(results):
     session.close()
 
 
-
-  # database_url = os.environ.get("MARS_DATABASE_URL", None)
-  #   engine = create_engine(database_url)
-  #   DBSession.configure(bind=engine)
-  #   Base.metadata.create_all(engine)
-  #   with transaction.manager:
-  #       DBSession.add_all(camera_list)
-  #       DBSession.add_all(rover_list)
-  #       DBSession.flush()
-
-   #  def populate_from_data(results):
-   #  create_engine
-   #  build sessionmaker
-   #  bind Base.metadata to engine
-   #  make session
-   #  make photo list
-   #  with transaction.manager:
-   #      session.add_all(photos)
-
-
-   #  print('photo_list made: {}'.format(len(photo_list)))
-   #  posts = DBSession.query(Rover).all()
-   #  print(posts)
-   #  with transaction.manager:
-   #      DBSession.add_all(photo_list)
-   #      DBSession.flush()
-   #  print('Put to Database')
-
-   # database_url = os.environ.get("MARS_DATABASE_URL", None)
-   #  engine = create_engine(database_url)
-   #  DBSession.configure(bind=engine)
-   #  Base.metadata.create_all(engine)
-
 def get_one_sol(rover, sol):
     results = fetch_photo_data(rover, sol)
-    # if results == 'sol':
-    #     return 'sol'
     print('rover:{} sol:{} result length:{}'.format(rover, sol, len(results)))
     if results:
-      populate_from_data(results)
-    # return 'page'
+        populate_from_data(results)
