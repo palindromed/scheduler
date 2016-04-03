@@ -2,10 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+pip-selfcheck.json
 # C extensions
 *.so
-
+bin/
+include/
 # Distribution / packaging
 .Python
 env/
